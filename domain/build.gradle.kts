@@ -42,4 +42,6 @@ dependencies {
     implementation (DaggerHilt.hilt)
     kapt(DaggerHilt.hiltCompiler)
     kapt(DaggerHilt.hiltAndroidCompiler)
+
+    implementation(project(Modules.common))
 }

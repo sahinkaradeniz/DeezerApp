@@ -48,4 +48,7 @@ dependencies {
     implementation(Retrofit.retrofit)
     implementation(Retrofit.gson)
     implementation(Retrofit.retrofitGsonConverter)
+
+    implementation(project(Modules.domain))
+    implementation(project(Modules.common))
 }

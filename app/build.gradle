@@ -58,5 +58,7 @@ dependencies {
     implementation(AndroidLibraries.lifecycleRuntime)
     implementation(AndroidLibraries.kotlinCoroutineAndroid)
     implementation(KotlinLibraries.kotlinCoroutineCore)
-
+    implementation(project(Modules.common))
+    implementation(project(Modules.domain))
+    implementation(project(Modules.data))
 }
