@@ -1,6 +1,6 @@
 package com.example.data.api
 
-import com.example.data.dto.artists.GenreArtistsResponse
+import com.example.data.dto.genre_artists.GenreArtistsResponse
 import com.example.data.dto.genre.MusicGenreResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
