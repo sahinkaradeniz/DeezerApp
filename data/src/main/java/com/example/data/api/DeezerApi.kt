@@ -1,5 +1,6 @@
 package com.example.data.api
 
+import com.example.data.dto.artist.ArtistResponse
 import com.example.data.dto.genre_artists.GenreArtistsResponse
 import com.example.data.dto.genre.MusicGenreResponse
 import retrofit2.http.GET
@@ -13,4 +14,10 @@ interface DeezerApi {
     suspend fun getGenreArtistsWithGenreId(
         @Path("genre_id") genre_id: Int,
     ): GenreArtistsResponse
+
+    @GET("artist/{artist_id}")
+    suspend fun getArtistWithArtistId(
+        @Path("artist_id")  artist_id:Int
+    ):ArtistResponse
+
 }
