@@ -1,7 +1,7 @@
 package com.example.data.dto.artists
 
 import com.google.gson.annotations.SerializedName
-data class MusicArtistsData(
+data class GenreArtistsData(
     @SerializedName("id") var id: Int,
     @SerializedName("name") var name: String,
     @SerializedName("picture") var picture: String,
