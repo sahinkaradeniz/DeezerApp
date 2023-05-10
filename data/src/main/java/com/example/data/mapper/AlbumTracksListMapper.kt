@@ -1,7 +1,7 @@
 package com.example.data.mapper
 
 import com.example.common.mapper.DeezerListMapper
-import com.example.data.dto.album_tracks.AlbumTracksData
+import com.example.data.dto.albumTracks.AlbumTracksData
 import com.example.domain.entity.AlbumTracksEntity
 
 class AlbumTracksListMapper:DeezerListMapper<AlbumTracksData,AlbumTracksEntity> {

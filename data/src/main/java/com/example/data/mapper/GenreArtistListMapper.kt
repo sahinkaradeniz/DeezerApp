@@ -1,7 +1,7 @@
 package com.example.data.mapper
 
 import com.example.common.mapper.DeezerListMapper
-import com.example.data.dto.genre_artists.GenreArtistsData
+import com.example.data.dto.genreArtists.GenreArtistsData
 import com.example.domain.entity.GenreArtistsEntity
 
 class GenreArtistListMapper:DeezerListMapper<GenreArtistsData,GenreArtistsEntity> {
