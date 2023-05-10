@@ -2,6 +2,10 @@ package com.example.domain.di
 
 import com.example.domain.usecase.addSongToFavorites.AddSongToFavoritesUseCase
 import com.example.domain.usecase.addSongToFavorites.AddSongToFavoritesUseCaseImpl
+import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCase
+import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCaseImpl
+import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCase
+import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,4 +18,12 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindAddSongToFavoritesUseCase(addSongToFavoritesUseCaseImpl: AddSongToFavoritesUseCaseImpl): AddSongToFavoritesUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindDeleteSongFavoriteUseCase(deleteSongFavoritesUSeCaseImpl:DeleteSongFavoritesUseCaseImpl):DeleteSongFavoritesUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindGetAllFavoriteSongsUseCase(getAllFavoriteSongsUseCaseImpl: GetAllFavoriteSongsUseCaseImpl):GetAllFavoriteSongsUseCase
 }
