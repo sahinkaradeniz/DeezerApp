@@ -1,6 +1,6 @@
 package com.example.data.api
 
-import com.example.data.dto.album.ArtistAlbumsResponse
+import com.example.data.dto.artist_albums.ArtistAlbumsResponse
 import com.example.data.dto.artist.ArtistResponse
 import com.example.data.dto.genre_artists.GenreArtistsResponse
 import com.example.data.dto.genre.MusicGenreResponse
