@@ -1,4 +1,4 @@
-package com.example.domain.usecase
+package com.example.domain.usecase.addSongToFavorites
 
 import com.example.common.ResponseResult
 import com.example.domain.entity.FavoritesEntity
@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class AddSongToFavoritesUseCaseImpl @Inject constructor(
     private val deezerRepository: DeezerRepository
-):AddSongToFavoritesUseCase {
+): AddSongToFavoritesUseCase {
     override suspend fun invoke(favoritesEntity: FavoritesEntity): ResponseResult<FavoritesEntity> {
        return deezerRepository.addSongToFavorites(favoritesEntity)
     }

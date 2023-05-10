@@ -1,7 +1,7 @@
 package com.example.domain.di
 
-import com.example.domain.usecase.AddSongToFavoritesUseCase
-import com.example.domain.usecase.AddSongToFavoritesUseCaseImpl
+import com.example.domain.usecase.addSongToFavorites.AddSongToFavoritesUseCase
+import com.example.domain.usecase.addSongToFavorites.AddSongToFavoritesUseCaseImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import dagger.hilt.android.scopes.ViewModelScoped
 abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
-    abstract fun bindAddSongToFavoritesUSeCase(addSongToFavoritesUseCaseImpl: AddSongToFavoritesUseCaseImpl):AddSongToFavoritesUseCase
+    abstract fun bindAddSongToFavoritesUseCase(addSongToFavoritesUseCaseImpl: AddSongToFavoritesUseCaseImpl): AddSongToFavoritesUseCase
 }

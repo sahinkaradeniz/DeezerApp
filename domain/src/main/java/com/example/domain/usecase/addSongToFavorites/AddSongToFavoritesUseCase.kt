@@ -1,4 +1,4 @@
-package com.example.domain.usecase
+package com.example.domain.usecase.addSongToFavorites
 
 import com.example.common.ResponseResult
 import com.example.domain.entity.FavoritesEntity
