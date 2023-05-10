@@ -1,9 +1,9 @@
 package com.example.data.datastore.api
 
-import com.example.data.dto.album_tracks.AlbumTracksResponse
-import com.example.data.dto.artist_albums.ArtistAlbumsResponse
+import com.example.data.dto.albumTracks.AlbumTracksResponse
+import com.example.data.dto.artistAlbums.ArtistAlbumsResponse
 import com.example.data.dto.artist.ArtistResponse
-import com.example.data.dto.genre_artists.GenreArtistsResponse
+import com.example.data.dto.genreArtists.GenreArtistsResponse
 import com.example.data.dto.genre.MusicGenreResponse
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,4 +1,4 @@
-package com.example.data.dto.artist_albums
+package com.example.data.dto.artistAlbums
 
 import com.google.gson.annotations.SerializedName
 
