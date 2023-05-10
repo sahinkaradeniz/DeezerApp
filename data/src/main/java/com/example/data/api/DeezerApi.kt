@@ -1,5 +1,6 @@
 package com.example.data.api
 
+import com.example.data.dto.album.ArtistAlbumsResponse
 import com.example.data.dto.artist.ArtistResponse
 import com.example.data.dto.genre_artists.GenreArtistsResponse
 import com.example.data.dto.genre.MusicGenreResponse
@@ -19,5 +20,10 @@ interface DeezerApi {
     suspend fun getArtistWithArtistId(
         @Path("artist_id")  artist_id:Int
     ):ArtistResponse
+
+    @GET("artist/{artist_id}/albums")
+    suspend fun getArtistAlbumsWithArtistId(
+        @Path("artist_id") artist_id: Int
+    ):ArtistAlbumsResponse
 
 }
