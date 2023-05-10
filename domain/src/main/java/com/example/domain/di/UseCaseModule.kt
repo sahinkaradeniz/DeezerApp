@@ -6,6 +6,8 @@ import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCase
 import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCaseImpl
 import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCase
 import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCaseImpl
+import com.example.domain.usecase.getAllGenresOfMusic.GetAllGenresOfMusicUseCase
+import com.example.domain.usecase.getAllGenresOfMusic.GetAllGenresOfMusicUseCaseImpl
 import com.example.domain.usecase.getFavoriteSongWithId.GetFavoriteSongWithIdUseCase
 import com.example.domain.usecase.getFavoriteSongWithId.GetFavoriteSongWithIdUseCaseImpl
 import dagger.Binds
@@ -32,4 +34,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindGetFavoriteSongWitIdUseCase(getFavoriteSongWithIdUseCaseImpl: GetFavoriteSongWithIdUseCaseImpl):GetFavoriteSongWithIdUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindGetAllGenresOfMusicUseCase(getAllGenresOfMusicUseCaseImpl: GetAllGenresOfMusicUseCaseImpl):GetAllGenresOfMusicUseCase
 }
