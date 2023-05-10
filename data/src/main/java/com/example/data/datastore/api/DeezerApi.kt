@@ -1,4 +1,4 @@
-package com.example.data.api
+package com.example.data.datastore.api
 
 import com.example.data.dto.album_tracks.AlbumTracksResponse
 import com.example.data.dto.artist_albums.ArtistAlbumsResponse
