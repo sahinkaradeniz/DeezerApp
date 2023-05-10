@@ -49,6 +49,11 @@ dependencies {
     implementation(Retrofit.gson)
     implementation(Retrofit.retrofitGsonConverter)
 
+    implementation(Room.room)
+    kapt(Room.roomCompiler)
+    annotationProcessor (Room.roomCompiler)
+    implementation(Room.roomRuntime)
+
     implementation(project(Modules.domain))
     implementation(project(Modules.common))
 }

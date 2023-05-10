@@ -19,6 +19,7 @@ object Versions {
     const val nav = "2.5.3"
     const val paging="3.1.1"
     const val shimmer="0.5.0"
+    const val roomVersion = "2.4.3"
 }
 
 object Deps {
@@ -62,6 +63,11 @@ object Retrofit {
     const val gson = "com.google.code.gson:gson:${Versions.gson}"
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitGsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.retrofitGson}"
+}
+object Room {
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
+    const val roomRuntime="androidx.room:room-runtime:${Versions.roomVersion}"
 }
 
 
