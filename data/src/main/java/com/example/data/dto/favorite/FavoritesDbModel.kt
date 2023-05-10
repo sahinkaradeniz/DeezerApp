@@ -11,4 +11,5 @@ data class FavoritesDbModel(
     var title: String,
     var duration: Int,
     var artistName: String,
+    var picture:String
 )

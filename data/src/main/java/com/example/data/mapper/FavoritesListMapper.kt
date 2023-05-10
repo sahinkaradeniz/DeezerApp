@@ -11,7 +11,8 @@ class FavoritesListMapper:DeezerListMapper<FavoritesDbModel,FavoritesEntity> {
                 id = it.id,
                 artistName = it.artistName,
                 title = it.title,
-                duration = it.duration
+                duration = it.duration,
+                picture = it.picture
             )
         }
     }

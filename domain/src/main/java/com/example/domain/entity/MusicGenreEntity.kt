@@ -4,4 +4,5 @@ data class MusicGenreEntity(
     var id: Int,
     var name: String,
     var picture: String,
+    var type:String
 )

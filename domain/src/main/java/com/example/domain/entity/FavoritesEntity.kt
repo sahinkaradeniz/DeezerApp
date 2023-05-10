@@ -5,4 +5,5 @@ data class FavoritesEntity(
     var title: String,
     var duration: Int,
     var artistName: String,
+    var picture:String,
 )

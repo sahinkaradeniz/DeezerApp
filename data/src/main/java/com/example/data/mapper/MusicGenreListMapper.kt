@@ -11,6 +11,7 @@ class MusicGenreListMapper:DeezerListMapper<MusicGenreData,MusicGenreEntity> {
                 id = it.id,
                 name = it.name,
                 picture = it.picture,
+                type = it.type
             )
         }
     }
