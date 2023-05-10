@@ -1,10 +1,10 @@
 package com.example.common
 
-sealed interface Result<out T> {
+sealed interface ResponseResult<out T> {
 
-    data class Success<T>(val data: T?) : Result<T>
+    data class Success<T>(val data: T?) : ResponseResult<T>
 
-    sealed interface Error<T> : Result<T> {
+    sealed interface Error<T> : ResponseResult<T> {
         val error: ResultError
 
         data class IOException<T>(override val error: ResultError) : Error<T>
@@ -18,15 +18,15 @@ sealed interface Result<out T> {
     }
 }
 
-inline fun <T> Result<T>.onSuccess(handler: (T?) -> Unit): Result<T> =
+inline fun <T> ResponseResult<T>.onSuccess(handler: (T?) -> Unit): ResponseResult<T> =
     this.also {
-        if (this is Result.Success)
+        if (this is ResponseResult.Success)
             handler(data)
     }
 
-inline fun <T> Result<T>.onError(handler: (Result.Error<T>?) -> Unit): Result<T> =
+inline fun <T> ResponseResult<T>.onError(handler: (ResponseResult.Error<T>?) -> Unit): ResponseResult<T> =
     this.also {
-        if (this is Result.Error)
+        if (this is ResponseResult.Error)
             handler(this)
     }
 
