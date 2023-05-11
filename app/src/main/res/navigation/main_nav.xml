@@ -45,5 +45,22 @@
             android:name="artistId"
             app:argType="integer">
         </argument>
+        <action
+            android:id="@+id/action_artistFragment_to_albumTracksFragment"
+            app:destination="@id/albumTracksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumTracksFragment"
+        android:name="com.example.deezerapp.ui.albumTracks.AlbumTracksFragment"
+        android:label="fragment_album_tracks"
+        tools:layout="@layout/fragment_album_tracks" >
+        <argument
+            android:name="albumId"
+            app:argType="integer">
+        </argument>
+        <argument
+            android:name="albumName"
+            app:argType="string">
+        </argument>
     </fragment>
 </navigation>

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.common.extension.downloadFromUrl
 import com.example.deezerapp.databinding.ArtistAlbumItemBinding
 
-class AlbumsAdapter(private val clickItem:(Int)->Unit):RecyclerView.Adapter<AlbumsAdapter.AlbumsViewHolder>() {
+class AlbumsAdapter(private val clickItem:(Int,String)->Unit):RecyclerView.Adapter<AlbumsAdapter.AlbumsViewHolder>() {
     private val itemList= mutableListOf<AlbumsUiData>()
     class AlbumsViewHolder (private val binding:ArtistAlbumItemBinding):ViewHolder(binding.root){
         fun bind(albumsUiData: AlbumsUiData){
@@ -30,7 +30,7 @@ class AlbumsAdapter(private val clickItem:(Int)->Unit):RecyclerView.Adapter<Albu
     override fun onBindViewHolder(holder: AlbumsViewHolder, position: Int) {
         holder.bind(itemList[position])
         holder.itemView.setOnClickListener {
-            clickItem.invoke(itemList[position].id)
+            clickItem.invoke(itemList[position].id,itemList[position].title)
         }
     }
     @SuppressLint("NotifyDataSetChanged")

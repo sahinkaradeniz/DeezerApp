@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.common.extension.downloadFromUrl
@@ -24,8 +25,9 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding
     private val args :ArtistFragmentArgs by navArgs()
     private val adapter by lazy { AlbumsAdapter(::clickAlbumItem) }
 
-    private fun clickAlbumItem(albumId: Int) {
-        Toast.makeText(requireContext(), albumId.toString(), Toast.LENGTH_SHORT).show()
+    private fun clickAlbumItem(albumId: Int,albumName:String) {
+       val action=ArtistFragmentDirections.actionArtistFragmentToAlbumTracksFragment(albumId,albumName)
+        findNavController().navigate(action)
     }
 
     override fun onCreateFinished() {
