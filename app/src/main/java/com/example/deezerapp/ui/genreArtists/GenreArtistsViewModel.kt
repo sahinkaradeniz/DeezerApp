@@ -24,6 +24,7 @@ class GenreArtistsViewModel @Inject constructor(
     fun getGenreArtistsWithGenreId(genreId: Int) {
         viewModelScope.launch {
             if (!dataLoaded) {
+                _genreArtistsUiState.postValue(UiState.Loading)
                 getGenreArtistsWithGenreIdUseCase.invoke(genreId)
                     .onError {
                         _genreArtistsUiState.postValue(UiState.Loading)
