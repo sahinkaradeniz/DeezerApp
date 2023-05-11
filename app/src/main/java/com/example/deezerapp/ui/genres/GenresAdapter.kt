@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.common.extension.downloadFromUrl
 import com.example.deezerapp.databinding.GenreAndArtistItemBinding
 
-class GenresAdapter(private val onItemClick :(Int)->Unit):RecyclerView.Adapter<GenresAdapter.GenresViewHolder>() {
+class GenresAdapter(private val onItemClick :(Int,String)->Unit):RecyclerView.Adapter<GenresAdapter.GenresViewHolder>() {
     private val itemList= mutableListOf<GenresUiData>()
     class GenresViewHolder(private val binding:GenreAndArtistItemBinding):ViewHolder(binding.root) {
         fun bind(genresUiData: GenresUiData){
@@ -25,7 +25,7 @@ class GenresAdapter(private val onItemClick :(Int)->Unit):RecyclerView.Adapter<G
     override fun onBindViewHolder(holder: GenresViewHolder, position: Int) {
        holder.bind(itemList[position])
        holder.itemView.setOnClickListener {
-           onItemClick.invoke(itemList[position].id)
+           onItemClick.invoke(itemList[position].id,itemList[position].name)
        }
     }
 

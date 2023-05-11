@@ -1,8 +1,8 @@
 package com.example.deezerapp.ui.genres
 
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.deezerapp.core.BaseFragment
@@ -16,8 +16,9 @@ class GenresFragment : BaseFragment<FragmentGenresBinding>(FragmentGenresBinding
     private val viewModel: GenresViewModel by viewModels()
     private val adapter by lazy { GenresAdapter(::adapterRowClick) }
 
-    private fun adapterRowClick(id: Int) {
-        Toast.makeText(requireContext(), "click $id", Toast.LENGTH_SHORT).show()
+    private fun adapterRowClick(id: Int,name:String) {
+       val action =GenresFragmentDirections.actionGenresFragmentToGenreArtistsFragment(id,name)
+        findNavController().navigate(action)
     }
 
     override fun onCreateFinished() {
@@ -28,7 +29,7 @@ class GenresFragment : BaseFragment<FragmentGenresBinding>(FragmentGenresBinding
         observeLiveData()
     }
     private fun observeLiveData(){
-        viewModel.genresList.observe(viewLifecycleOwner){ it ->
+        viewModel.genresUiState.observe(viewLifecycleOwner){ it ->
             when(it){
                 is UiState.Loading ->{
                     showProgress()
