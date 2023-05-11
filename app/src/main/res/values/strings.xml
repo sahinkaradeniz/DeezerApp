@@ -3,4 +3,5 @@
     <string name="genres">Genres</string>
     <string name="favorites">Favorites</string>
     <string name="sanat_lar">Sanatçılar</string>
+    <string name="artist_name">Artist Name</string>
 </resources>

@@ -5,5 +5,5 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 
 @HiltViewModel
 class ArtistViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+  
 }

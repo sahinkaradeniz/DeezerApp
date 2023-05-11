@@ -19,7 +19,8 @@ class GenreArtistsFragment :
     private val adapter by lazy { GenreArtistsAdapter(::clickRcvItem) }
     private val args: GenreArtistsFragmentArgs by navArgs()
     private fun clickRcvItem(artistId: Int) {
-        Toast.makeText(requireContext(), artistId, Toast.LENGTH_SHORT).show()
+       val action =GenreArtistsFragmentDirections.actionGenreArtistsFragmentToArtistFragment(artistId)
+        findNavController().navigate(action)
     }
 
     override fun onCreateFinished() {

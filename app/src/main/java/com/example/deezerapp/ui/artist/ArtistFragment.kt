@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
 import com.example.deezerapp.databinding.FragmentArtistBinding
@@ -16,10 +17,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding::inflate) {
 
     private val viewModel: ArtistViewModel by viewModels()
-
+    private val args :ArtistFragmentArgs by navArgs()
 
     override fun onCreateFinished() {
-
+        val artistId=args.artistId
     }
 
 }
