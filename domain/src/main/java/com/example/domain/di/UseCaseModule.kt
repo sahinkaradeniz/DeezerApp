@@ -8,6 +8,8 @@ import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCase
 import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCaseImpl
 import com.example.domain.usecase.getAllGenresOfMusic.GetAllGenresOfMusicUseCase
 import com.example.domain.usecase.getAllGenresOfMusic.GetAllGenresOfMusicUseCaseImpl
+import com.example.domain.usecase.getArtistWithArtistId.GetArtistWithArtistIdUseCase
+import com.example.domain.usecase.getArtistWithArtistId.GetArtistWithArtistIdUseCaseImpl
 import com.example.domain.usecase.getFavoriteSongWithId.GetFavoriteSongWithIdUseCase
 import com.example.domain.usecase.getFavoriteSongWithId.GetFavoriteSongWithIdUseCaseImpl
 import com.example.domain.usecase.getGenreArtistsWithGenreId.GetGenreArtistsWithGenreIdUseCase
@@ -44,4 +46,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bingGetGenreArtistsWithGenreIdUseCase(getGenreArtistsWithGenreIdUseCaseImpl: GetGenreArtistsWithGenreIdUseCaseImpl):GetGenreArtistsWithGenreIdUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindGetArtistWithArtistIdUseCase(getArtistWithArtistIdUseCaseImpl: GetArtistWithArtistIdUseCaseImpl):GetArtistWithArtistIdUseCase
 }
