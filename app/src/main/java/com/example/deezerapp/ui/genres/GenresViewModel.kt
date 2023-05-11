@@ -18,24 +18,22 @@ class GenresViewModel @Inject constructor(
     private val getAllGenresOfMusicUseCase: GetAllGenresOfMusicUseCase,
     private val genresUiMapper: GenresUiMapper,
 ) : ViewModel() {
-    private val _genresList = MutableLiveData<UiState<List<GenresUiData>>>()
-    val genresList: LiveData<UiState<List<GenresUiData>>> get() = _genresList
+    private val _genresUiState = MutableLiveData<UiState<List<GenresUiData>>>()
+    val genresUiState: LiveData<UiState<List<GenresUiData>>> get() = _genresUiState
     private var dataLoaded = false
     fun getAllGenresOfMusic() {
         viewModelScope.launch {
-            if (!dataLoaded){
-                _genresList.postValue(UiState.Loading)
+            if (!dataLoaded) {
+                _genresUiState.postValue(UiState.Loading)
                 getAllGenresOfMusicUseCase.invoke()
                     .onError {
-                        _genresList.postValue(UiState.Error(it?.error?.errorMessage.toString()))
-                        Log.e("test ", "eror :  ${_genresList.value}", )
+                        _genresUiState.postValue(UiState.Error(it?.error?.errorMessage.toString()))
                     }.onSuccess {
                         it?.let { list ->
-                            _genresList.postValue(UiState.Success(genresUiMapper.map(list)))
-                            Log.e("test ", "succes :  $list", )
+                            _genresUiState.postValue(UiState.Success(genresUiMapper.map(list)))
                         }
+                        dataLoaded = true
                     }
-                dataLoaded=true
             }
         }
     }
