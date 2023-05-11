@@ -4,6 +4,8 @@ import com.example.domain.usecase.addSongToFavorites.AddSongToFavoritesUseCase
 import com.example.domain.usecase.addSongToFavorites.AddSongToFavoritesUseCaseImpl
 import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCase
 import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCaseImpl
+import com.example.domain.usecase.getAlbumTracksWithAlbumId.GetAlbumTracksWithAlbumIdUseCase
+import com.example.domain.usecase.getAlbumTracksWithAlbumId.GetAlbumTracksWithAlbumIdUseCaseImpl
 import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCase
 import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCaseImpl
 import com.example.domain.usecase.getAllGenresOfMusic.GetAllGenresOfMusicUseCase
@@ -56,4 +58,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindGetArtistAlbumsWithArtistIdUseCase(getArtistAlbumsWithArtistIdUseCaseImpl: GetArtistAlbumsWithArtistIdUseCaseImpl):GetArtistAlbumsWithArtistIdUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindGetAlbumTracksWithAlbumIdUseCase(getAlbumTracksWithAlbumIdUseCaseImpl: GetAlbumTracksWithAlbumIdUseCaseImpl): GetAlbumTracksWithAlbumIdUseCase
 }
