@@ -12,7 +12,7 @@ class ArtistMapper @Inject constructor():DeezerMapper<ArtistResponse,ArtistEntit
             name = input.name,
             type = input.type,
             tracklist = input.tracklist,
-            picture = input.picture
+            picture = input.pictureMedium
         )
     }
 }

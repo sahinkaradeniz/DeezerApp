@@ -11,7 +11,7 @@ class GenreArtistListMapper @Inject constructor():DeezerListMapper<GenreArtistsD
             GenreArtistsEntity(
                 id = it.id,
                 name = it.name,
-                picture = it.picture,
+                picture = it.pictureMedium,
                 type = it.type,
                 tracklist = it.tracklist
             )
