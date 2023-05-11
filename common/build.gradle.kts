@@ -31,11 +31,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures{
+        viewBinding=true
+    }
 }
 
 dependencies {
     implementation(Deps.appCompat)
     implementation(Deps.core)
+    implementation(Deps.androidMaterial)
+    api(AndroidLibraries.lifecycleRuntime)
     api(Glide.glide)
     implementation(Glide.annotationProcessor)
     implementation(CircularProgressBar.swipeRefresh)
