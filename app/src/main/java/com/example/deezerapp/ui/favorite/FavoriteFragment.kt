@@ -8,6 +8,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
 
     private val viewModel: FavoriteViewModel by viewModels()
     override fun onCreateFinished() {
-        TODO("Not yet implemented")
+
     }
 }

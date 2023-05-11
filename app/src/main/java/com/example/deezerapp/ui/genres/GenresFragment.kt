@@ -9,7 +9,7 @@ class GenresFragment : BaseFragment<FragmentGenresBinding>(FragmentGenresBinding
     private val viewModel: GenresViewModel by viewModels()
 
     override fun onCreateFinished() {
-        TODO("Not yet implemented")
+   
     }
 
 }
