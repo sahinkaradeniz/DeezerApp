@@ -13,7 +13,8 @@ class ArtistAlbumsListMapper @Inject constructor():DeezerListMapper<ArtistAlbums
                 title = it.title,
                 tracklist = it.tracklist,
                 type = it.type,
-                picture = it.coverMedium
+                picture = it.coverMedium,
+                date = it.releaseDate
             )
         }
     }
