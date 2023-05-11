@@ -5,5 +5,6 @@ data class ArtistAlbumsEntity(
     var title: String,
     var tracklist: String,
     var type: String,
-    var picture:String
+    var picture:String,
+    var date:String
 )
