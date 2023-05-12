@@ -62,5 +62,9 @@
             android:name="albumName"
             app:argType="string">
         </argument>
+        <argument
+            android:name="albumPicture"
+            app:argType="string">
+        </argument>
     </fragment>
 </navigation>
