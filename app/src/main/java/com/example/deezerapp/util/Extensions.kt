@@ -9,6 +9,6 @@ fun TracksUiData.toFavoriteEntity(): FavoritesEntity {
         title=this.title,
         duration=this.duration,
         artistName = this.artist,
-        picture = ""
+        picture = this.picture
     )
 }
