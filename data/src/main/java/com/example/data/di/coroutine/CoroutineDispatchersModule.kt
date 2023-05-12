@@ -9,8 +9,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+/**
+ * CoroutineDispatchersModule provides Coroutine Dispatcher related objects for dependency injection.
+ */
 object CoroutineDispatchersModule {
 
+    /**
+     * Provides the I/O dispatcher for Coroutines.
+     *
+     * @return The Coroutine I/O Dispatcher.
+     */
     @IoDispatcher
     @Provides
     @Singleton

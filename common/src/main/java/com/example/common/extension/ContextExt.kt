@@ -7,6 +7,11 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.provider.Settings
 
+/**
+ * Checks if the device has an active internet connection.
+ *
+ * @return true if the device has an active internet connection, false otherwise.
+ */
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager =
         getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -17,6 +22,12 @@ fun Context.isNetworkAvailable(): Boolean {
     return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
 }
 
+/**
+ * Opens the device's internet settings with a confirmation dialog.
+ * Displays an AlertDialog with a message asking the user if they want to open the internet settings.
+ * If the user selects "Yes", it opens the internet settings screen.
+ * If the user selects "No", no action is taken.
+ */
 fun Context.navigateToInternetSettingsWithConfirmation() {
     val builder = AlertDialog.Builder(this)
     builder.setTitle("Internet Settings")

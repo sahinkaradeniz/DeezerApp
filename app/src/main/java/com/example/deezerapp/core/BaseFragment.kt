@@ -15,7 +15,12 @@ import java.util.*
 
 
 typealias Inflater<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
-
+/**
+ * BaseFragment is an abstract class that serves as the base for all fragments in the DeezerApp.
+ * It provides common functionality and lifecycle methods for fragments.
+ *
+ * @param <VB> The type of ViewBinding used by the fragment.
+ */
 abstract class BaseFragment<VB : ViewBinding> protected constructor(
     private val inflater: Inflater<VB>
 ) : Fragment() {
@@ -41,14 +46,28 @@ abstract class BaseFragment<VB : ViewBinding> protected constructor(
         initListener()
     }
 
+
+    /**
+     * Callback method invoked when the fragment's view creation is finished.
+     * Subclasses should override this method to perform additional setup and initialization.
+     */
     abstract fun onCreateFinished()
+
+    /**
+     * Initializes the listeners for UI interactions.
+     * Subclasses should override this method to set up event listeners.
+     */
     open fun initListener() {}
 
-    fun showProgress() {
-        progressStack.add(Unit)
-        parent?.showProgress()
-    }
+    /**
+     * Shows the progress indicator.
+     * This method is used to display a loading indicator while an operation is in progress.
+     */
 
+    /**
+     * Hides the progress indicator.
+     * This method is used to hide the loading indicator when an operation is complete.
+     */
     fun hideProgress() {
         if (progressStack.size > 0)
             progressStack.pop()
@@ -73,10 +92,17 @@ abstract class BaseFragment<VB : ViewBinding> protected constructor(
         }
     }
 
+    /**
+     * Handles an error response from an API request.
+     *
+     * @param error The ResponseResult.Error instance representing the error.
+     *              This method can be overridden by subclasses to handle errors appropriately.
+     *              TODO: Implement error dialog.
+     */
     fun <T> handleError(
         error: ResponseResult.Error<T>
     ) {
-        // TODO("Error Dialog")
+        // TODO: Implement error dialog.
     }
 
     override fun onDestroyView() {

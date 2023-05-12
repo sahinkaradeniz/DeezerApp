@@ -12,6 +12,12 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 object FavoritesDbModule {
+    /**
+     * Provides the FavoritesDatabase instance.
+     *
+     * @param context The application context.
+     * @return The FavoritesDatabase instance.
+     */
     @Provides
     fun provideFavoritesDb(
         @ApplicationContext context: Context
@@ -21,7 +27,12 @@ object FavoritesDbModule {
         "favorites_db"
     ).build()
 
-
+    /**
+     * Provides the FavoritesDao instance.
+     *
+     * @param database The FavoritesDatabase instance.
+     * @return The FavoritesDao instance.
+     */
     @Provides
     fun provideProductDao(database:FavoritesDatabase): FavoritesDao = database.favoritesDao()
 }
