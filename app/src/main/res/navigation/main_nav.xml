@@ -66,18 +66,7 @@
             android:name="albumPicture"
             app:argType="string">
         </argument>
-        <action
-            android:id="@+id/action_albumTracksFragment_to_playerFragment"
-            app:destination="@id/playerFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/playerFragment"
-        android:name="com.example.deezerapp.ui.player.PlayerFragment"
-        android:label="fragment_player"
-        tools:layout="@layout/fragment_player" >
-        <argument
-            android:name="trackId"
-            app:argType="integer">
-        </argument>
-    </fragment>
+
+
 </navigation>
