@@ -1,9 +1,12 @@
 package com.example.deezerapp.ui.albumTracks
 
+import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.common.extension.isNetworkAvailable
+import com.example.common.extension.navigateToInternetSettingsWithConfirmation
 import com.example.common.extension.visible
 import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
@@ -87,6 +90,14 @@ class AlbumTracksFragment :
     }
 
     private fun onItemClick(tracksUiData: TracksUiData) {
+        if (requireContext().isNetworkAvailable()) {
+          playMusic(tracksUiData)
+        } else {
+            requireContext().navigateToInternetSettingsWithConfirmation()
+        }
+    }
+
+    private fun playMusic(tracksUiData: TracksUiData){
         binding.playArtistName.text=tracksUiData.artist
         binding.playMusicName.text=tracksUiData.title
         viewModel.startPlayback(
