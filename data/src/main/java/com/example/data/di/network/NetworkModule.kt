@@ -11,7 +11,15 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
+/**
+ * NetworkModule provides network related objects for dependency injection.
+ */
 object NetworkModule {
+    /**
+     * Provides the DeezerApi.
+     *
+     * @return The DeezerApi instance.
+     */
     @Provides
     @Singleton
     fun provideDeezerApi(): DeezerApi {
