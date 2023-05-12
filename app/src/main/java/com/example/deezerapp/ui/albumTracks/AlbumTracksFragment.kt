@@ -2,14 +2,13 @@ package com.example.deezerapp.ui.albumTracks
 
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.common.extension.visible
+import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.databinding.FragmentAlbumTracksBinding
-import com.example.domain.entity.FavoritesEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +17,7 @@ class AlbumTracksFragment :
 
     private val viewModel: AlbumTracksViewModel by viewModels()
     private val args: AlbumTracksFragmentArgs by navArgs()
-    private val adapter by lazy { TracksAdapter(::clickItem, ::clickFavoriteButton) }
+    private val adapter by lazy { TracksAdapter(::onItemClick, ::onFavoriteButtonClick) }
 
     override fun onCreateFinished() {
         getArgs()
@@ -66,15 +65,34 @@ class AlbumTracksFragment :
                 }
             }
         }
+        viewModel.isPlaying.observe(viewLifecycleOwner) { isPlaying ->
+            val playPauseButtonImage = if (isPlaying) {
+                binding.playerView.visible()
+                R.drawable.round_stop_24
+            } else {
+                R.drawable.round_play_arrow_24
+            }
+            binding.playPauseButton2.setImageResource(playPauseButtonImage)
+        }
     }
 
-    private fun clickFavoriteButton(tracksUiData: TracksUiData) {
+    override fun initListener() {
+        binding.playPauseButton2.setOnClickListener {
+            viewModel.togglePlayback()
+        }
+    }
+
+    private fun onFavoriteButtonClick(tracksUiData: TracksUiData) {
         viewModel.changeIsFavorite(tracksUiData)
     }
 
-    private fun clickItem(trackId: Int) {
-      val action=AlbumTracksFragmentDirections.actionAlbumTracksFragmentToPlayerFragment(trackId)
-        findNavController().navigate(action)
+    private fun onItemClick(tracksUiData: TracksUiData) {
+        binding.playArtistName.text=tracksUiData.artist
+        binding.playMusicName.text=tracksUiData.title
+        viewModel.startPlayback(
+            requireContext(),
+            tracksUiData.preview
+        )
     }
 
 }
