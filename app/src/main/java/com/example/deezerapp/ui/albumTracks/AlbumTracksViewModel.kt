@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.onError
 import com.example.common.onSuccess
 import com.example.deezerapp.core.UiState
+import com.example.deezerapp.util.toFavoriteEntity
 import com.example.domain.entity.FavoritesEntity
 import com.example.domain.usecase.addSongToFavorites.AddSongToFavoritesUseCase
 import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCase
@@ -16,7 +17,7 @@ import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
+
 
 @HiltViewModel
 class AlbumTracksViewModel @Inject constructor(
@@ -27,14 +28,11 @@ class AlbumTracksViewModel @Inject constructor(
     private val tracksUiMapper: TracksUiMapper,
 ) : ViewModel() {
     private val className = this.javaClass.simpleName
-
     private val _tracksUiState = MutableLiveData<UiState<List<TracksUiData>>>()
     val tracksUiState: LiveData<UiState<List<TracksUiData>>> get() = _tracksUiState
-
     private val _favoriteState = MutableLiveData<UiState<String>>()
     val favoriteState: LiveData<UiState<String>> get() = _favoriteState
     private var favoritesList = listOf<FavoritesEntity>()
-
 
     fun getAlbumTracksWithAlbumId(albumId: Int) {
         viewModelScope.launch {
@@ -66,8 +64,6 @@ class AlbumTracksViewModel @Inject constructor(
         }
         _tracksUiState.value = _tracksUiState.value
     }
-
-
 
     private suspend fun getAllFavoriteTracks() {
         getAllFavoriteSongsUseCase.invoke().onSuccess {

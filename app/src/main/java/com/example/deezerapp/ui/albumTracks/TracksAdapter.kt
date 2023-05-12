@@ -29,7 +29,8 @@ class TracksAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
-        val bind = AlbumTracksItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val bind =
+            AlbumTracksItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TracksViewHolder(bind)
     }
 
@@ -47,8 +48,9 @@ class TracksAdapter(
             updateFavoriteButtonImage(holder, itemList[position].isFavorite)
         }
     }
+
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newList:List<TracksUiData>){
+    fun updateData(newList: List<TracksUiData>) {
         itemList.clear()
         itemList.addAll(newList)
         notifyDataSetChanged()
