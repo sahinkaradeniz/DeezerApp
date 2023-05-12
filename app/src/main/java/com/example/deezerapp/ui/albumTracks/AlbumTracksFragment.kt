@@ -2,6 +2,7 @@ package com.example.deezerapp.ui.albumTracks
 
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -72,7 +73,8 @@ class AlbumTracksFragment :
     }
 
     private fun clickItem(trackId: Int) {
-        Toast.makeText(requireContext(), "click $trackId", Toast.LENGTH_SHORT).show()
+      val action=AlbumTracksFragmentDirections.actionAlbumTracksFragmentToPlayerFragment(trackId)
+        findNavController().navigate(action)
     }
 
 }
