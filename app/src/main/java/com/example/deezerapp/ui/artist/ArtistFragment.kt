@@ -25,8 +25,8 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding
     private val args :ArtistFragmentArgs by navArgs()
     private val adapter by lazy { AlbumsAdapter(::clickAlbumItem) }
 
-    private fun clickAlbumItem(albumId: Int,albumName:String) {
-       val action=ArtistFragmentDirections.actionArtistFragmentToAlbumTracksFragment(albumId,albumName)
+    private fun clickAlbumItem(albumId: Int,albumName:String,albumPicture:String) {
+       val action=ArtistFragmentDirections.actionArtistFragmentToAlbumTracksFragment(albumId,albumName,albumPicture)
         findNavController().navigate(action)
     }
 
