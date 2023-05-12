@@ -1,10 +1,14 @@
 package com.example.deezerapp.ui.albumTracks
 
+import android.content.Context
+import android.media.MediaPlayer
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.common.extension.formatDuration
 import com.example.common.onError
 import com.example.common.onSuccess
 import com.example.deezerapp.core.UiState
@@ -34,6 +38,13 @@ class AlbumTracksViewModel @Inject constructor(
     val favoriteState: LiveData<UiState<String>> get() = _favoriteState
     private var favoritesList = listOf<FavoritesEntity>()
 
+    private var mediaPlayer: MediaPlayer? = null
+    private val _isPlaying = MutableLiveData<Boolean>()
+    val isPlaying: LiveData<Boolean> get() = _isPlaying
+
+    init {
+        _isPlaying.value = false
+    }
     fun getAlbumTracksWithAlbumId(albumId: Int) {
         viewModelScope.launch {
             _tracksUiState.postValue(UiState.Loading)
@@ -97,4 +108,45 @@ class AlbumTracksViewModel @Inject constructor(
         }
     }
 
+    private fun stopPlayback() {
+        mediaPlayer?.apply {
+            stop()
+            reset()
+            release()
+        }
+        mediaPlayer = null
+        _isPlaying.postValue(false)
+    }
+
+    fun startPlayback(context: Context, musicUrl: String) {
+        stopPlayback()
+        mediaPlayer = MediaPlayer().apply {
+            setDataSource(context, Uri.parse(musicUrl))
+            prepareAsync()
+            setOnPreparedListener { player ->
+                player.start()
+                _isPlaying.postValue(true)
+            }
+            setOnCompletionListener {
+                stopPlayback()
+            }
+        }
+    }
+
+    fun togglePlayback() {
+        mediaPlayer?.let { player ->
+            if (player.isPlaying) {
+                player.pause()
+                _isPlaying.postValue(false)
+            } else {
+                player.start()
+                _isPlaying.postValue(true)
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stopPlayback()
+    }
 }

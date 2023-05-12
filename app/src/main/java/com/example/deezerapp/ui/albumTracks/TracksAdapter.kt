@@ -11,7 +11,7 @@ import com.example.deezerapp.R
 import com.example.deezerapp.databinding.AlbumTracksItemBinding
 
 class TracksAdapter(
-    private val clickItem: (Int) -> Unit,
+    private val clickItem: (TracksUiData) -> Unit,
     private val clickFavorite: (TracksUiData) -> Unit,
 ) : RecyclerView.Adapter<TracksAdapter.TracksViewHolder>() {
     private val itemList = mutableListOf<TracksUiData>()
@@ -41,7 +41,7 @@ class TracksAdapter(
     override fun onBindViewHolder(holder: TracksViewHolder, position: Int) {
         holder.bind(itemList[position])
         holder.itemView.rootView.setOnClickListener {
-            clickItem.invoke(itemList[position].id)
+            clickItem.invoke(itemList[position])
         }
         holder.binding.favoriteButton.setOnClickListener {
             clickFavorite.invoke(itemList[position])
