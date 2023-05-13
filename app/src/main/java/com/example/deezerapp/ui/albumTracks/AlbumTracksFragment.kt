@@ -1,6 +1,5 @@
 package com.example.deezerapp.ui.albumTracks
 
-import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -57,14 +56,16 @@ class AlbumTracksFragment :
                 }
             }
         }
-        viewModel.favoriteState.observe(viewLifecycleOwner) {
-            when (it) {
-                is UiState.Loading -> {}
-                is UiState.Error -> {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                }
-                is UiState.Success -> {
-                    Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+        viewModel.favoriteState.observe(viewLifecycleOwner) { event->
+            event.getContentIfNotHandled()?.let {
+                when (it) {
+                    is UiState.Loading -> {}
+                    is UiState.Error -> {
+                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    }
+                    is UiState.Success -> {
+                        Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
