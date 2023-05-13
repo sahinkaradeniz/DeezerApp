@@ -40,21 +40,23 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
                 }
             }
         }
-        viewModel.deleteFavoriteUiState.observe(viewLifecycleOwner) {
-            when (it) {
-                is UiState.Success -> {
-                }
-                is UiState.Error -> {
-                    Toast.makeText(requireContext(), "Error $it", Toast.LENGTH_SHORT).show()
-                }
-                is UiState.Loading -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Deleting Track...",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        viewModel.deleteFavoriteUiState.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                when (it) {
+                    is UiState.Success -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "${it.data} Deleted From Favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    is UiState.Error -> {
+                        Toast.makeText(requireContext(), "Error $it", Toast.LENGTH_SHORT).show()
+                    }
+                    is UiState.Loading -> {
 
+                    }
+                }
             }
         }
     }
