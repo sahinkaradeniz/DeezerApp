@@ -46,7 +46,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
                     is UiState.Success -> {
                         Toast.makeText(
                             requireContext(),
-                            "${it.data} Deleted From Favorites",
+                            "Removed favorite",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
