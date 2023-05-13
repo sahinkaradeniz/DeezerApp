@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/genresFragment">
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.example.deezerapp.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" />
+    <fragment
+        android:id="@+id/genresFragment"
+        android:name="com.example.deezerapp.ui.genres.GenresFragment"
+        android:label="fragment_genres"
+        tools:layout="@layout/fragment_genres" >
+        <action
+            android:id="@+id/action_genresFragment_to_genreArtistsFragment"
+            app:destination="@id/genreArtistsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/genreArtistsFragment"
+        android:name="com.example.deezerapp.ui.genreArtists.GenreArtistsFragment"
+        android:label="fragment_genre_artists"
+        tools:layout="@layout/fragment_genre_artists" >
+        <argument
+            android:name="genresId"
+            app:argType="integer">
+        </argument>
+        <argument
+            android:name="genreName"
+            app:argType="string">
+        </argument>
+        <action
+            android:id="@+id/action_genreArtistsFragment_to_artistFragment"
+            app:destination="@id/artistFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistFragment"
+        android:name="com.example.deezerapp.ui.artist.ArtistFragment"
+        android:label="fragment_artist"
+        tools:layout="@layout/fragment_artist" >
+        <argument
+            android:name="artistId"
+            app:argType="integer">
+        </argument>
+        <action
+            android:id="@+id/action_artistFragment_to_albumTracksFragment"
+            app:destination="@id/albumTracksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/albumTracksFragment"
+        android:name="com.example.deezerapp.ui.albumTracks.AlbumTracksFragment"
+        android:label="fragment_album_tracks"
+        tools:layout="@layout/fragment_album_tracks" >
+        <argument
+            android:name="albumId"
+            app:argType="integer">
+        </argument>
+        <argument
+            android:name="albumName"
+            app:argType="string">
+        </argument>
+        <argument
+            android:name="albumPicture"
+            app:argType="string">
+        </argument>
+    </fragment>
+
+
+</navigation>

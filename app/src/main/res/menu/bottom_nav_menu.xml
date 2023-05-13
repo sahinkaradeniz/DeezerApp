@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/genresFragment"
+        android:title="@string/genres"
+        android:icon="@drawable/round_queue_music_24">
+    </item>
+    <item android:id="@+id/favoriteFragment"
+        android:title="@string/favorites"
+        android:icon="@drawable/baseline_favorite_24"/>
+</menu>
