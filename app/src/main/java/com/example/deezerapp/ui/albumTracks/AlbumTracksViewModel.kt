@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.common.extension.formatDuration
 import com.example.common.onError
 import com.example.common.onSuccess
+import com.example.deezerapp.core.Event
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.util.toFavoriteEntity
 import com.example.domain.entity.FavoritesEntity
@@ -34,8 +35,8 @@ class AlbumTracksViewModel @Inject constructor(
     private val className = this.javaClass.simpleName
     private val _tracksUiState = MutableLiveData<UiState<List<TracksUiData>>>()
     val tracksUiState: LiveData<UiState<List<TracksUiData>>> get() = _tracksUiState
-    private val _favoriteState = MutableLiveData<UiState<String>>()
-    val favoriteState: LiveData<UiState<String>> get() = _favoriteState
+    private val _favoriteState = MutableLiveData<Event<String>>()
+    val favoriteState: LiveData<Event<String>> get() = _favoriteState
     private var favoritesList = listOf<FavoritesEntity>()
 
     private var mediaPlayer: MediaPlayer? = null
@@ -86,11 +87,11 @@ class AlbumTracksViewModel @Inject constructor(
 
     private fun addFavoriteTrack(favoritesEntity: FavoritesEntity) {
         viewModelScope.launch {
-            _favoriteState.postValue(UiState.Loading)
+            _favoriteState.postValue(Event(UiState.Loading))
             addSongToFavoritesUseCase.invoke(favoritesEntity).onError {
-                _favoriteState.postValue(UiState.Error(it?.error?.errorMessage.toString()))
+                _favoriteState.postValue(Event(UiState.Error(it?.error?.errorMessage.toString())))
             }.onSuccess {
-                _favoriteState.postValue(UiState.Success("Added to Favorites"))
+                _favoriteState.postValue(Event(UiState.Success("Added to Favorites")))
             }
         }
     }
@@ -98,11 +99,11 @@ class AlbumTracksViewModel @Inject constructor(
     private fun deleteFavoriteTrack(favoritesEntity: FavoritesEntity) {
         viewModelScope.launch {
             viewModelScope.launch {
-                _favoriteState.postValue(UiState.Loading)
+                _favoriteState.postValue(Event(UiState.Loading))
                 deleteSongFavoritesUseCase.invoke(favoritesEntity).onError {
-                    _favoriteState.postValue(UiState.Error(it?.error?.errorMessage.toString()))
+                    _favoriteState.postValue(Event(UiState.Error(it?.error?.errorMessage.toString())))
                 }.onSuccess {
-                    _favoriteState.postValue(UiState.Success("Removed from favorites"))
+                    _favoriteState.postValue(Event(UiState.Success("Removed from favorites")))
                 }
             }
         }
