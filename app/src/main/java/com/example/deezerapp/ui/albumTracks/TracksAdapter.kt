@@ -22,9 +22,12 @@ class TracksAdapter(
             binding.durationText.text = tracksUiData.duration.toDurationString()
             binding.titleText.text = tracksUiData.title
             binding.trackImage.downloadFromUrl(tracksUiData.picture)
-            if (tracksUiData.isFavorite) {
-                binding.favoriteButton.setImageResource(R.drawable.baseline_favorite_24)
+            val favoriteResource = if (tracksUiData.isFavorite) {
+                R.drawable.baseline_favorite_24
+            } else {
+                R.drawable.round_favorite_borde
             }
+            binding.favoriteButton.setImageResource(favoriteResource)
         }
     }
 

@@ -63,6 +63,10 @@ abstract class BaseFragment<VB : ViewBinding> protected constructor(
      * Shows the progress indicator.
      * This method is used to display a loading indicator while an operation is in progress.
      */
+    fun showProgress() {
+        progressStack.add(Unit)
+        parent?.showProgress()
+    }
 
     /**
      * Hides the progress indicator.
