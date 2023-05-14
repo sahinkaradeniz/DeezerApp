@@ -16,12 +16,8 @@ class GenreArtistsFragment :
     BaseFragment<FragmentGenreArtistsBinding>(FragmentGenreArtistsBinding::inflate) {
 
     private val viewModel: GenreArtistsViewModel by viewModels()
-    private val adapter by lazy { GenreArtistsAdapter(::clickRcvItem) }
+    private val adapter by lazy { GenreArtistsAdapter(::onClickItem) }
     private val args: GenreArtistsFragmentArgs by navArgs()
-    private fun clickRcvItem(artistId: Int) {
-       val action =GenreArtistsFragmentDirections.actionGenreArtistsFragmentToArtistFragment(artistId)
-        findNavController().navigate(action)
-    }
 
     override fun onCreateFinished() {
         getArgs()
@@ -30,8 +26,7 @@ class GenreArtistsFragment :
             GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false)
         observeLiveData()
     }
-
-
+    
     override fun initListener() {
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
@@ -45,22 +40,28 @@ class GenreArtistsFragment :
                     showProgress()
                 }
                 is UiState.Error -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    errorMessage(it.message)
                 }
                 is UiState.Success -> {
                     hideProgress()
                     it.data?.let { list ->
-                        adapter.updateData(list)
+                        adapter.updateFavoritesAdapterData(list)
                     }
                 }
             }
         }
     }
-    private fun getArgs(){
+
+    private fun getArgs() {
         val genreId = args.genresId
-        val genreName=args.genreName
-        binding.genreName.text=genreName
+        val genreName = args.genreName
+        binding.genreName.text = genreName
         viewModel.getGenreArtistsWithGenreId(genreId)
     }
 
+    private fun onClickItem(artistId: Int) {
+        val action =
+            GenreArtistsFragmentDirections.actionGenreArtistsFragmentToArtistFragment(artistId)
+        findNavController().navigate(action)
+    }
 }
