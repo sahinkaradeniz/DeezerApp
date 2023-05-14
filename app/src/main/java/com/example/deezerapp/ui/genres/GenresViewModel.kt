@@ -20,10 +20,9 @@ class GenresViewModel @Inject constructor(
 ) : ViewModel() {
     private val _genresUiState = MutableLiveData<UiState<List<GenresUiData>>>()
     val genresUiState: LiveData<UiState<List<GenresUiData>>> get() = _genresUiState
-    private var dataLoaded = false
     fun getAllGenresOfMusic() {
         viewModelScope.launch {
-            if (!dataLoaded) {
+            if (genresUiState.value == null) {
                 _genresUiState.postValue(UiState.Loading)
                 getAllGenresOfMusicUseCase.invoke()
                     .onError {
@@ -32,7 +31,6 @@ class GenresViewModel @Inject constructor(
                         it?.let { list ->
                             _genresUiState.postValue(UiState.Success(genresUiMapper.map(list)))
                         }
-                        dataLoaded = true
                     }
             }
         }
