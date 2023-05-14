@@ -5,11 +5,11 @@ DeezerApp is an Android application that allows users to search for music, liste
 ## Project Screens
 GENRES SCREEN | ARTİSTS SCREEN | ARTİST SCREEN | 
 --- | --- | --- | 
-![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/7446cc9a-1510-45d8-b1b1-4af847d08010) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/2435ab2e-cedf-43d8-8fa3-658826734853) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/222b4268-4ef8-40dc-8002-3800bc3595bf) |
+![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/c97fa409-3002-4e93-8ea1-bdfb38f8a6f0) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/0568fa1b-109a-4dcb-9620-d151319936e4) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/9c4b8858-f3b6-45d6-8095-21966b3f20d0) |
 
 TRACKS SCREEN | TRACKS SCREEN | FAVORİTES SCREEN | 
 --- | --- | --- | 
-![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/8178eb87-b916-4f3e-acef-afbdb1a97c8d) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/7ce1747a-36de-4724-9512-68c99419338b) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/3209af73-a96d-4a8f-ae61-81a2fc655658) |
+![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/e7419400-b8f7-4e7f-b794-821c8dd93c2e) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/bef92fc9-5fa7-496e-8674-e1137bd85884) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/1ce45ca1-9150-4486-8e67-14df6437fb1a) |
 
 ## Project Tech stack 
 
