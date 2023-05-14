@@ -102,7 +102,6 @@ class AlbumTracksFragment :
         binding.playArtistName.text = tracksUiData.artist
         binding.playMusicName.text = tracksUiData.title
         viewModel.startPlayback(
-            requireContext(),
             tracksUiData.preview
         )
     }

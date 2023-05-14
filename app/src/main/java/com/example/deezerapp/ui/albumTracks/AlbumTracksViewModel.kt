@@ -1,13 +1,11 @@
 package com.example.deezerapp.ui.albumTracks
 
+import android.app.Application
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.common.onError
 import com.example.common.onSuccess
 import com.example.deezerapp.core.Event
@@ -30,7 +28,8 @@ class AlbumTracksViewModel @Inject constructor(
     private val addSongToFavoritesUseCase: AddSongToFavoritesUseCase,
     private val deleteSongFavoritesUseCase: DeleteSongFavoritesUseCase,
     private val tracksUiMapper: TracksUiMapper,
-) : ViewModel() {
+    application: Application,
+) : AndroidViewModel(application) {
     private val TAG = this.javaClass.simpleName
     private val _tracksUiState = MutableLiveData<UiState<List<TracksUiData>>>()
     val tracksUiState: LiveData<UiState<List<TracksUiData>>> get() = _tracksUiState
@@ -45,6 +44,7 @@ class AlbumTracksViewModel @Inject constructor(
     init {
         _isPlaying.value = false
     }
+
     fun getAlbumTracksWithAlbumId(albumId: Int) {
         viewModelScope.launch {
             _tracksUiState.postValue(UiState.Loading)
@@ -52,11 +52,11 @@ class AlbumTracksViewModel @Inject constructor(
             getAlbumTracksWithAlbumIdUseCase.invoke(albumId).onError {
                 _tracksUiState.postValue(UiState.Error(it?.error?.errorMessage.toString()))
             }.onSuccess {
-                it?.let {
+                it?.let {list->
                     _tracksUiState.postValue(
                         UiState.Success(
                             tracksUiMapper.mapWithFavorites(
-                                it,
+                                list,
                                 favoritesList
                             )
                         )
@@ -96,13 +96,11 @@ class AlbumTracksViewModel @Inject constructor(
 
     private fun deleteFavoriteTrack(favoritesEntity: FavoritesEntity) {
         viewModelScope.launch {
-            viewModelScope.launch {
-                _favoriteState.postValue(Event(UiState.Loading))
-                deleteSongFavoritesUseCase.invoke(favoritesEntity).onError {
-                    _favoriteState.postValue(Event(UiState.Error(it?.error?.errorMessage.toString())))
-                }.onSuccess {
-                    _favoriteState.postValue(Event(UiState.Success("Removed from favorites")))
-                }
+            _favoriteState.postValue(Event(UiState.Loading))
+            deleteSongFavoritesUseCase.invoke(favoritesEntity).onError {
+                _favoriteState.postValue(Event(UiState.Error(it?.error?.errorMessage.toString())))
+            }.onSuccess {
+                _favoriteState.postValue(Event(UiState.Success("Removed from favorites")))
             }
         }
     }
@@ -117,17 +115,25 @@ class AlbumTracksViewModel @Inject constructor(
         _isPlaying.postValue(false)
     }
 
-    fun startPlayback(context: Context, musicUrl: String) {
+    fun startPlayback(musicUrl: String) {
         stopPlayback()
         mediaPlayer = MediaPlayer().apply {
-            setDataSource(context, Uri.parse(musicUrl))
-            prepareAsync()
-            setOnPreparedListener { player ->
-                player.start()
-                _isPlaying.postValue(true)
-            }
-            setOnCompletionListener {
-                stopPlayback()
+            try {
+                setDataSource(getApplication<Application>().applicationContext, Uri.parse(musicUrl))
+                prepareAsync()
+                setOnPreparedListener { player ->
+                    player.start()
+                    _isPlaying.postValue(true)
+                }
+                setOnCompletionListener {
+                    stopPlayback()
+                }
+                setOnErrorListener { _, _, _ ->
+                    _isPlaying.postValue(false)
+                    true
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "start playBack method eror : ${e.message.toString()}")
             }
         }
     }
