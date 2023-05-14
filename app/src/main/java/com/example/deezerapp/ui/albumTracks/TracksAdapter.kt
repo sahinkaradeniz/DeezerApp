@@ -1,8 +1,8 @@
 package com.example.deezerapp.ui.albumTracks
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.common.extension.downloadFromUrl
@@ -16,18 +16,28 @@ class TracksAdapter(
 ) : RecyclerView.Adapter<TracksAdapter.TracksViewHolder>() {
     private val itemList = mutableListOf<TracksUiData>()
 
-    class TracksViewHolder(val binding: AlbumTracksItemBinding) : ViewHolder(binding.root) {
+    inner class TracksViewHolder(val binding: AlbumTracksItemBinding) : ViewHolder(binding.root) {
         fun bind(tracksUiData: TracksUiData) {
             binding.artistName.text = tracksUiData.artist
             binding.durationText.text = tracksUiData.duration.toDurationString()
             binding.titleText.text = tracksUiData.title
             binding.trackImage.downloadFromUrl(tracksUiData.picture)
+
             val favoriteResource = if (tracksUiData.isFavorite) {
                 R.drawable.baseline_favorite_24
             } else {
                 R.drawable.round_favorite_borde
             }
             binding.favoriteButton.setImageResource(favoriteResource)
+
+            binding.favoriteButton.setOnClickListener {
+                updateFavoriteStatus(tracksUiData)
+                clickFavorite.invoke(tracksUiData)
+            }
+
+            binding.root.setOnClickListener {
+                clickItem.invoke(tracksUiData)
+            }
         }
     }
 
@@ -43,28 +53,34 @@ class TracksAdapter(
 
     override fun onBindViewHolder(holder: TracksViewHolder, position: Int) {
         holder.bind(itemList[position])
-        holder.itemView.rootView.setOnClickListener {
-            clickItem.invoke(itemList[position])
+    }
+
+    private inner class TracksDiffCallback(
+        private val oldList: List<TracksUiData>,
+        private val newList: List<TracksUiData>,
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = oldList.size
+        override fun getNewListSize(): Int = newList.size
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition] == newList[newItemPosition]
         }
-        holder.binding.favoriteButton.setOnClickListener {
-            clickFavorite.invoke(itemList[position])
-            updateFavoriteButtonImage(holder, itemList[position].isFavorite)
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].id == newList[newItemPosition].id
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newList: List<TracksUiData>) {
+    private fun updateFavoriteStatus(track: TracksUiData) {
+        val index = itemList.indexOf(track)
+        if (index != -1) {
+            itemList[index].isFavorite = !itemList[index].isFavorite
+            notifyItemChanged(index)
+        }
+    }
+
+    fun updateTracksAdapterData(newItems: List<TracksUiData>) {
+        val diffResult = DiffUtil.calculateDiff(TracksDiffCallback(itemList, newItems))
         itemList.clear()
-        itemList.addAll(newList)
-        notifyDataSetChanged()
-    }
-
-    private fun updateFavoriteButtonImage(holder: TracksViewHolder, isFavorite: Boolean) {
-        val imageResource = if (isFavorite) {
-            R.drawable.round_favorite_borde
-        } else {
-            R.drawable.baseline_favorite_24
-        }
-        holder.binding.favoriteButton.setImageResource(imageResource)
+        itemList.addAll(newItems)
+        diffResult.dispatchUpdatesTo(this)
     }
 }

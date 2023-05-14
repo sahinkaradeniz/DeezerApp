@@ -19,11 +19,9 @@ class GenreArtistsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _genreArtistsUiState = MutableLiveData<UiState<List<GenreArtistsUiData>>>()
     val genreArtistsUiState: LiveData<UiState<List<GenreArtistsUiData>>> get() = _genreArtistsUiState
-    private var dataLoaded = false
-
     fun getGenreArtistsWithGenreId(genreId: Int) {
         viewModelScope.launch {
-            if (!dataLoaded) {
+            if (genreArtistsUiState.value == null) {
                 _genreArtistsUiState.postValue(UiState.Loading)
                 getGenreArtistsWithGenreIdUseCase.invoke(genreId)
                     .onError {
@@ -38,7 +36,6 @@ class GenreArtistsViewModel @Inject constructor(
                                 )
                             )
                         }
-                        dataLoaded = true
                     }
             }
         }

@@ -1,18 +1,10 @@
 package com.example.deezerapp.ui.artist
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.common.extension.downloadFromUrl
-import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.databinding.FragmentArtistBinding
@@ -23,9 +15,9 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding
 
     private val viewModel: ArtistViewModel by viewModels()
     private val args :ArtistFragmentArgs by navArgs()
-    private val adapter by lazy { AlbumsAdapter(::clickAlbumItem) }
+    private val adapter by lazy { AlbumsAdapter(::onClickAlbumItem) }
 
-    private fun clickAlbumItem(albumId: Int,albumName:String,albumPicture:String) {
+    private fun onClickAlbumItem(albumId: Int, albumName:String, albumPicture:String) {
        val action=ArtistFragmentDirections.actionArtistFragmentToAlbumTracksFragment(albumId,albumName,albumPicture)
         findNavController().navigate(action)
     }
@@ -46,15 +38,21 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding
                 is UiState.Success->{
                     it.data?.let { artistData ->
                         binding.artistPicture.downloadFromUrl(artistData.picture)
-                        binding.artistName.text=artistData.name
-                        adapter.updateItems(artistData.albums)
+                        binding.artistToolbar.toolbarTitle.text=artistData.name
+                        adapter.updateAlbumsAdapterData(artistData.albums)
                     }
                     hideProgress()
                 }
                 is UiState.Error->{
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    errorMessage(it.message)
                 }
             }
+        }
+    }
+
+    override fun initListener() {
+        binding.artistToolbar.toolbarBackButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

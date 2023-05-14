@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.provider.Settings
+import android.widget.Toast
 
 /**
  * Checks if the device has an active internet connection.
@@ -20,6 +21,10 @@ fun Context.isNetworkAvailable(): Boolean {
         connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
 
     return capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+}
+
+fun Context.toastMessage(message:String){
+    Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
 }
 
 /**
