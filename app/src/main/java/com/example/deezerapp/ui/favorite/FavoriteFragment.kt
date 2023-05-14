@@ -1,9 +1,8 @@
 package com.example.deezerapp.ui.favorite
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.example.common.extension.toastMessage
 import com.example.deezerapp.core.BaseFragment
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.databinding.FragmentFavoriteBinding
@@ -14,9 +13,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate) {
     private val adapter by lazy { FavoritesAdapter(::onClickFavoritesButton) }
     private val viewModel: FavoriteViewModel by viewModels()
-    private fun onClickFavoritesButton(favoritesEntity: FavoritesEntity) {
-        viewModel.deleteTrackFavorites(favoritesEntity)
-    }
 
     override fun onCreateFinished() {
         binding.favoritesRcv.adapter=adapter
@@ -30,10 +26,10 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
             when (it) {
                 is UiState.Success -> {
                     hideProgress()
-                    adapter.updateItems(it.data ?: emptyList())
+                    adapter.updateFavoritesAdapterData(it.data ?: emptyList())
                 }
                 is UiState.Error -> {
-                    Toast.makeText(requireContext(), "Error $it", Toast.LENGTH_SHORT).show()
+                    errorMessage(it.message)
                 }
                 is UiState.Loading -> {
                     showProgress()
@@ -44,20 +40,18 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     is UiState.Success -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "Removed favorite",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        requireContext().toastMessage("Removed favorite")
                     }
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), "Error $it", Toast.LENGTH_SHORT).show()
+                        errorMessage(it.message)
                     }
                     is UiState.Loading -> {
-
                     }
                 }
             }
         }
+    }
+    private fun onClickFavoritesButton(favoritesEntity: FavoritesEntity) {
+        viewModel.deleteTrackFavorites(favoritesEntity)
     }
 }
