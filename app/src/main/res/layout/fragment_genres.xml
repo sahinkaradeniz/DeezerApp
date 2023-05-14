@@ -7,14 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.genres.GenresFragment">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/genres"
-        android:textSize="18sp"
-        android:textStyle="bold"
+    <include
+        android:id="@+id/genre_toolbar"
+        layout="@layout/app_toolbar_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,9 +18,8 @@
         android:id="@+id/genre_rcv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/genre_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

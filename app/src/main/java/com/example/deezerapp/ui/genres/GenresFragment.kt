@@ -4,6 +4,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.common.extension.gone
+import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.databinding.FragmentGenresBinding
@@ -21,6 +23,8 @@ class GenresFragment : BaseFragment<FragmentGenresBinding>(FragmentGenresBinding
         binding.genreRcv.layoutManager =
             GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false)
         observeLiveData()
+        binding.genreToolbar.toolbarTitle.text=getString(R.string.genres)
+        binding.genreToolbar.toolbarBackButton.gone()
     }
 
     private fun observeLiveData() {

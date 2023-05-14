@@ -1,6 +1,7 @@
 package com.example.deezerapp.ui.albumTracks
 
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.common.extension.isNetworkAvailable
@@ -32,7 +33,7 @@ class AlbumTracksFragment :
         val albumId = args.albumId
         val albumName = args.albumName
         viewModel.getAlbumTracksWithAlbumId(albumId)
-        binding.albumName.text = albumName
+        binding.tracksToolbar.toolbarTitle.text = albumName
     }
 
     private fun observeLiveData() {
@@ -83,6 +84,9 @@ class AlbumTracksFragment :
     override fun initListener() {
         binding.playPauseButton2.setOnClickListener {
             viewModel.togglePlayback()
+        }
+        binding.tracksToolbar.toolbarBackButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

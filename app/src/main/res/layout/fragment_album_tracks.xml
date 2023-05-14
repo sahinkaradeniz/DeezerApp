@@ -7,29 +7,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.albumTracks.AlbumTracksFragment">
 
-    <TextView
-        android:id="@+id/album_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Album Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
+    <include
+        android:id="@+id/tracks_toolbar"
+        layout="@layout/app_toolbar_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </TextView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tracks_rcv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toTopOf="@+id/player_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/album_name">
+        app:layout_constraintTop_toBottomOf="@+id/tracks_toolbar">
 
     </androidx.recyclerview.widget.RecyclerView>
 

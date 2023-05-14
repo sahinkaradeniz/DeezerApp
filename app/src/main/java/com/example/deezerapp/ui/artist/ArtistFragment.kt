@@ -38,7 +38,7 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding
                 is UiState.Success->{
                     it.data?.let { artistData ->
                         binding.artistPicture.downloadFromUrl(artistData.picture)
-                        binding.artistName.text=artistData.name
+                        binding.artistToolbar.toolbarTitle.text=artistData.name
                         adapter.updateAlbumsAdapterData(artistData.albums)
                     }
                     hideProgress()
@@ -47,6 +47,12 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding
                     errorMessage(it.message)
                 }
             }
+        }
+    }
+
+    override fun initListener() {
+        binding.artistToolbar.toolbarBackButton.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

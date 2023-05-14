@@ -1,6 +1,5 @@
 package com.example.deezerapp.ui.genreArtists
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -28,7 +27,7 @@ class GenreArtistsFragment :
     }
 
     override fun initListener() {
-        binding.backButton.setOnClickListener {
+        binding.genreToolbar.toolbarBackButton.setOnClickListener {
             findNavController().popBackStack()
         }
     }
@@ -55,7 +54,7 @@ class GenreArtistsFragment :
     private fun getArgs() {
         val genreId = args.genresId
         val genreName = args.genreName
-        binding.genreName.text = genreName
+        binding.genreToolbar.toolbarTitle.text = genreName
         viewModel.getGenreArtistsWithGenreId(genreId)
     }
 
