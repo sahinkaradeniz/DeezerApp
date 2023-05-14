@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.common.extension.formatDuration
 import com.example.common.onError
 import com.example.common.onSuccess
 import com.example.deezerapp.core.Event
@@ -32,7 +31,7 @@ class AlbumTracksViewModel @Inject constructor(
     private val deleteSongFavoritesUseCase: DeleteSongFavoritesUseCase,
     private val tracksUiMapper: TracksUiMapper,
 ) : ViewModel() {
-    private val className = this.javaClass.simpleName
+    private val TAG = this.javaClass.simpleName
     private val _tracksUiState = MutableLiveData<UiState<List<TracksUiData>>>()
     val tracksUiState: LiveData<UiState<List<TracksUiData>>> get() = _tracksUiState
     private val _favoriteState = MutableLiveData<Event<String>>()
@@ -68,7 +67,6 @@ class AlbumTracksViewModel @Inject constructor(
     }
 
     fun changeIsFavorite(tracksUiData: TracksUiData) {
-        tracksUiData.isFavorite = !tracksUiData.isFavorite
         if (tracksUiData.isFavorite) {
             addFavoriteTrack(tracksUiData.toFavoriteEntity())
         } else {
@@ -81,7 +79,7 @@ class AlbumTracksViewModel @Inject constructor(
         getAllFavoriteSongsUseCase.invoke().onSuccess {
             favoritesList = it ?: listOf()
         }.onError {
-            Log.e(className, "error getAllFavoriteTracks: $it")
+            Log.e(TAG, "error getAllFavoriteTracks: $it")
         }
     }
 

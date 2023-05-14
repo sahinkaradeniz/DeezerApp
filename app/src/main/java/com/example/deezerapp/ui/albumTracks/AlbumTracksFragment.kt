@@ -1,11 +1,11 @@
 package com.example.deezerapp.ui.albumTracks
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.common.extension.isNetworkAvailable
 import com.example.common.extension.navigateToInternetSettingsWithConfirmation
+import com.example.common.extension.toastMessage
 import com.example.common.extension.visible
 import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
@@ -39,7 +39,7 @@ class AlbumTracksFragment :
         viewModel.tracksUiState.observe(viewLifecycleOwner) {
             when (it) {
                 is UiState.Error -> {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    errorMessage(it.message)
                 }
                 is UiState.Success -> {
                     val albumPicture = args.albumPicture
@@ -47,7 +47,7 @@ class AlbumTracksFragment :
                         list.map { track ->
                             track.picture = albumPicture
                         }
-                        adapter.updateData(list)
+                        adapter.updateTracksAdapterData(list)
                     }
                     hideProgress()
                 }
@@ -56,15 +56,15 @@ class AlbumTracksFragment :
                 }
             }
         }
-        viewModel.favoriteState.observe(viewLifecycleOwner) { event->
+        viewModel.favoriteState.observe(viewLifecycleOwner) { event ->
             event.getContentIfNotHandled()?.let {
                 when (it) {
                     is UiState.Loading -> {}
                     is UiState.Error -> {
-                        Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                        errorMessage(it.message)
                     }
                     is UiState.Success -> {
-                        Toast.makeText(requireContext(), it.data, Toast.LENGTH_SHORT).show()
+                        it.data?.let { it1 -> requireContext().toastMessage(it1) }
                     }
                 }
             }
@@ -92,15 +92,15 @@ class AlbumTracksFragment :
 
     private fun onItemClick(tracksUiData: TracksUiData) {
         if (requireContext().isNetworkAvailable()) {
-          playMusic(tracksUiData)
+            playMusic(tracksUiData)
         } else {
             requireContext().navigateToInternetSettingsWithConfirmation()
         }
     }
 
-    private fun playMusic(tracksUiData: TracksUiData){
-        binding.playArtistName.text=tracksUiData.artist
-        binding.playMusicName.text=tracksUiData.title
+    private fun playMusic(tracksUiData: TracksUiData) {
+        binding.playArtistName.text = tracksUiData.artist
+        binding.playMusicName.text = tracksUiData.title
         viewModel.startPlayback(
             requireContext(),
             tracksUiData.preview

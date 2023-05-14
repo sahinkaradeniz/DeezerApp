@@ -9,8 +9,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewbinding.ViewBinding
-import com.example.common.ResponseResult
 import com.example.common.extension.getParent
+import com.example.common.extension.toastMessage
 import java.util.*
 
 
@@ -96,17 +96,10 @@ abstract class BaseFragment<VB : ViewBinding> protected constructor(
         }
     }
 
-    /**
-     * Handles an error response from an API request.
-     *
-     * @param error The ResponseResult.Error instance representing the error.
-     *              This method can be overridden by subclasses to handle errors appropriately.
-     *              TODO: Implement error dialog.
-     */
-    fun <T> handleError(
-        error: ResponseResult.Error<T>
+    fun errorMessage(
+        error: String
     ) {
-        // TODO: Implement error dialog.
+       requireContext().toastMessage(error)
     }
 
     override fun onDestroyView() {
