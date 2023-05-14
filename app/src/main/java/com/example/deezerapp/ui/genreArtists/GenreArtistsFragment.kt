@@ -26,7 +26,7 @@ class GenreArtistsFragment :
             GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false)
         observeLiveData()
     }
-    
+
     override fun initListener() {
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()

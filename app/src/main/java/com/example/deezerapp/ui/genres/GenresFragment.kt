@@ -1,6 +1,5 @@
 package com.example.deezerapp.ui.genres
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,12 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class GenresFragment : BaseFragment<FragmentGenresBinding>(FragmentGenresBinding::inflate) {
 
     private val viewModel: GenresViewModel by viewModels()
-    private val adapter by lazy { GenresAdapter(::adapterRowClick) }
-
-    private fun adapterRowClick(id: Int,name:String) {
-       val action =GenresFragmentDirections.actionGenresFragmentToGenreArtistsFragment(id,name)
-        findNavController().navigate(action)
-    }
+    private val adapter by lazy { GenresAdapter(::onItemClick) }
 
     override fun onCreateFinished() {
         viewModel.getAllGenresOfMusic()
@@ -28,23 +22,29 @@ class GenresFragment : BaseFragment<FragmentGenresBinding>(FragmentGenresBinding
             GridLayoutManager(requireContext(), 2, LinearLayoutManager.VERTICAL, false)
         observeLiveData()
     }
-    private fun observeLiveData(){
-        viewModel.genresUiState.observe(viewLifecycleOwner){ it ->
-            when(it){
-                is UiState.Loading ->{
+
+    private fun observeLiveData() {
+        viewModel.genresUiState.observe(viewLifecycleOwner) {
+            when (it) {
+                is UiState.Loading -> {
                     showProgress()
                 }
-                is UiState.Success ->{
+                is UiState.Success -> {
                     hideProgress()
                     it.data?.let { list ->
-                        adapter.updateData(list)
+                        adapter.updateGenresAdapterData(list)
                     }
                 }
-                is UiState.Error ->{
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                is UiState.Error -> {
+                    errorMessage(it.message)
                 }
             }
         }
+    }
+
+    private fun onItemClick(id: Int, name: String) {
+        val action = GenresFragmentDirections.actionGenresFragmentToGenreArtistsFragment(id, name)
+        findNavController().navigate(action)
     }
 
 }
