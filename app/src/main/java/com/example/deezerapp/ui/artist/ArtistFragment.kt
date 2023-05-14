@@ -47,12 +47,12 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(FragmentArtistBinding
                     it.data?.let { artistData ->
                         binding.artistPicture.downloadFromUrl(artistData.picture)
                         binding.artistName.text=artistData.name
-                        adapter.updateItems(artistData.albums)
+                        adapter.updateAlbumsAdapterData(artistData.albums)
                     }
                     hideProgress()
                 }
                 is UiState.Error->{
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    errorMessage(it.message)
                 }
             }
         }
