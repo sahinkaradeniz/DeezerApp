@@ -3,11 +3,11 @@
 DeezerApp is an Android application that allows users to search for music, listen to tracks, and save favorite tunes, utilizing the Deezer API. This app embraces modern Android development practices and architectures.
 
 ## Project Screens
-GENRES SCREEN | ARTİSTS SCREEN | ARTİST SCREEN | 
+GENRES SCREEN | ARTISTS SCREEN | ARTIST SCREEN | 
 --- | --- | --- | 
 ![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/c97fa409-3002-4e93-8ea1-bdfb38f8a6f0) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/0568fa1b-109a-4dcb-9620-d151319936e4) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/9c4b8858-f3b6-45d6-8095-21966b3f20d0) |
 
-TRACKS SCREEN | TRACKS SCREEN | FAVORİTES SCREEN | 
+TRACKS SCREEN | TRACKS SCREEN | FAVORITES SCREEN | 
 --- | --- | --- | 
 ![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/e7419400-b8f7-4e7f-b794-821c8dd93c2e) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/bef92fc9-5fa7-496e-8674-e1137bd85884) |![Uygulama Ekran Görüntüsü](https://github.com/sahinkaradeniz/DeezerApp/assets/85341568/1ce45ca1-9150-4486-8e67-14df6437fb1a) |
 
