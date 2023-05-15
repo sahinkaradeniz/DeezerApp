@@ -1,16 +1,20 @@
 package com.example.deezerapp.ui.favorite
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.common.extension.gone
 import com.example.common.extension.toastMessage
-import com.example.common.extension.visible
 import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.databinding.FragmentFavoriteBinding
 import com.example.domain.entity.FavoritesEntity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteBinding::inflate) {
@@ -41,23 +45,25 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
                 }
             }
         }
-        viewModel.deleteFavoriteUiState.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                when (it) {
-                    is UiState.Success -> {
-                        requireContext().toastMessage("Removed favorite")
-                    }
-                    is UiState.Error -> {
-                        errorMessage(it.message)
-                    }
-                    is UiState.Loading -> {
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.deleteFavoriteUiState.collectLatest {
+                    when (it) {
+                        is UiState.Success -> {
+                            requireContext().toastMessage("Removed favorite")
+                        }
+                        is UiState.Error -> {
+                            errorMessage(it.message)
+                        }
+                        is UiState.Loading -> {
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun onClickFavoritesButton(favoritesEntity: FavoritesEntity) {
-        viewModel.deleteTrackFavorites(favoritesEntity)
+    private fun onClickFavoritesButton(favoriteUiData: FavoriteUiData) {
+        viewModel.deleteTrackFavorites(favoriteUiData)
     }
 }
