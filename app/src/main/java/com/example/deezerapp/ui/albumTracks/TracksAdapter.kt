@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.common.extension.downloadFromUrl
 import com.example.common.extension.toDurationString
 import com.example.deezerapp.R
+import com.example.deezerapp.core.DiffCallback
 import com.example.deezerapp.databinding.AlbumTracksItemBinding
 
 class TracksAdapter(
     private val clickItem: (TracksUiData) -> Unit,
     private val clickFavorite: (TracksUiData) -> Unit,
 ) : RecyclerView.Adapter<TracksAdapter.TracksViewHolder>() {
-    private val itemList = mutableListOf<TracksUiData>()
+    private var itemList = listOf<TracksUiData>()
 
     inner class TracksViewHolder(val binding: AlbumTracksItemBinding) : ViewHolder(binding.root) {
         fun bind(tracksUiData: TracksUiData) {
@@ -55,19 +56,7 @@ class TracksAdapter(
         holder.bind(itemList[position])
     }
 
-    private inner class TracksDiffCallback(
-        private val oldList: List<TracksUiData>,
-        private val newList: List<TracksUiData>,
-    ) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int = oldList.size
-        override fun getNewListSize(): Int = newList.size
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
-        }
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id == newList[newItemPosition].id
-        }
-    }
+
 
     private fun updateFavoriteStatus(track: TracksUiData) {
         val index = itemList.indexOf(track)
@@ -78,9 +67,8 @@ class TracksAdapter(
     }
 
     fun updateTracksAdapterData(newItems: List<TracksUiData>) {
-        val diffResult = DiffUtil.calculateDiff(TracksDiffCallback(itemList, newItems))
-        itemList.clear()
-        itemList.addAll(newItems)
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(itemList, newItems))
+        itemList=newItems
         diffResult.dispatchUpdatesTo(this)
     }
 }

@@ -1,14 +1,15 @@
 package com.example.deezerapp.ui.albumTracks
 
 import android.app.Application
-import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.common.onError
 import com.example.common.onSuccess
-import com.example.deezerapp.core.Event
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.util.toFavoriteEntity
 import com.example.domain.entity.FavoritesEntity
@@ -17,6 +18,9 @@ import com.example.domain.usecase.deleteSongFavorites.DeleteSongFavoritesUseCase
 import com.example.domain.usecase.getAlbumTracksWithAlbumId.GetAlbumTracksWithAlbumIdUseCase
 import com.example.domain.usecase.getAllFavoriteSongs.GetAllFavoriteSongsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,20 +34,14 @@ class AlbumTracksViewModel @Inject constructor(
     private val tracksUiMapper: TracksUiMapper,
     application: Application,
 ) : AndroidViewModel(application) {
-    private val TAG = this.javaClass.simpleName
+    private val tag = this.javaClass.simpleName
     private val _tracksUiState = MutableLiveData<UiState<List<TracksUiData>>>()
     val tracksUiState: LiveData<UiState<List<TracksUiData>>> get() = _tracksUiState
-    private val _favoriteState = MutableLiveData<Event<String>>()
-    val favoriteState: LiveData<Event<String>> get() = _favoriteState
+    private val _favoriteUiState= Channel<UiState<String>>()
+    val favoriteUiState:Flow<UiState<String>> get() = _favoriteUiState.receiveAsFlow()
+
     private var favoritesList = listOf<FavoritesEntity>()
 
-    private var mediaPlayer: MediaPlayer? = null
-    private val _isPlaying = MutableLiveData<Boolean>()
-    val isPlaying: LiveData<Boolean> get() = _isPlaying
-
-    init {
-        _isPlaying.value = false
-    }
 
     fun getAlbumTracksWithAlbumId(albumId: Int) {
         viewModelScope.launch {
@@ -79,79 +77,30 @@ class AlbumTracksViewModel @Inject constructor(
         getAllFavoriteSongsUseCase.invoke().onSuccess {
             favoritesList = it ?: listOf()
         }.onError {
-            Log.e(TAG, "error getAllFavoriteTracks: $it")
+            Log.e(tag, "error getAllFavoriteTracks: $it")
         }
     }
 
     private fun addFavoriteTrack(favoritesEntity: FavoritesEntity) {
         viewModelScope.launch {
-            _favoriteState.postValue(Event(UiState.Loading))
+            _favoriteUiState.send(UiState.Loading)
             addSongToFavoritesUseCase.invoke(favoritesEntity).onError {
-                _favoriteState.postValue(Event(UiState.Error(it?.error?.errorMessage.toString())))
+                _favoriteUiState.send(UiState.Error(it?.error?.errorMessage.toString()))
             }.onSuccess {
-                _favoriteState.postValue(Event(UiState.Success("Added to Favorites")))
+                _favoriteUiState.send(UiState.Success("Added to Favorites"))
             }
         }
     }
 
     private fun deleteFavoriteTrack(favoritesEntity: FavoritesEntity) {
         viewModelScope.launch {
-            _favoriteState.postValue(Event(UiState.Loading))
+            _favoriteUiState.send(UiState.Loading)
             deleteSongFavoritesUseCase.invoke(favoritesEntity).onError {
-                _favoriteState.postValue(Event(UiState.Error(it?.error?.errorMessage.toString())))
+                _favoriteUiState.send(UiState.Error(it?.error?.errorMessage.toString()))
             }.onSuccess {
-                _favoriteState.postValue(Event(UiState.Success("Removed from favorites")))
+                _favoriteUiState.send(UiState.Success("Removed to Favorites"))
             }
         }
     }
 
-    private fun stopPlayback() {
-        mediaPlayer?.apply {
-            stop()
-            reset()
-            release()
-        }
-        mediaPlayer = null
-        _isPlaying.postValue(false)
-    }
-
-    fun startPlayback(musicUrl: String) {
-        stopPlayback()
-        mediaPlayer = MediaPlayer().apply {
-            try {
-                setDataSource(getApplication<Application>().applicationContext, Uri.parse(musicUrl))
-                prepareAsync()
-                setOnPreparedListener { player ->
-                    player.start()
-                    _isPlaying.postValue(true)
-                }
-                setOnCompletionListener {
-                    stopPlayback()
-                }
-                setOnErrorListener { _, _, _ ->
-                    _isPlaying.postValue(false)
-                    true
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "start playBack method eror : ${e.message.toString()}")
-            }
-        }
-    }
-
-    fun togglePlayback() {
-        mediaPlayer?.let { player ->
-            if (player.isPlaying) {
-                player.pause()
-                _isPlaying.postValue(false)
-            } else {
-                player.start()
-                _isPlaying.postValue(true)
-            }
-        }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        stopPlayback()
-    }
 }
