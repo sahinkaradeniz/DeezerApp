@@ -14,7 +14,7 @@ class TracksAdapter(
     private val clickItem: (TracksUiData) -> Unit,
     private val clickFavorite: (TracksUiData) -> Unit,
 ) : RecyclerView.Adapter<TracksAdapter.TracksViewHolder>() {
-    private val itemList = mutableListOf<TracksUiData>()
+    private var itemList = listOf<TracksUiData>()
 
     inner class TracksViewHolder(val binding: AlbumTracksItemBinding) : ViewHolder(binding.root) {
         fun bind(tracksUiData: TracksUiData) {
@@ -79,8 +79,7 @@ class TracksAdapter(
 
     fun updateTracksAdapterData(newItems: List<TracksUiData>) {
         val diffResult = DiffUtil.calculateDiff(TracksDiffCallback(itemList, newItems))
-        itemList.clear()
-        itemList.addAll(newItems)
+        itemList=newItems
         diffResult.dispatchUpdatesTo(this)
     }
 }

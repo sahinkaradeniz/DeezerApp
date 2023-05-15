@@ -1,6 +1,9 @@
 package com.example.deezerapp.ui.albumTracks
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +15,11 @@ import com.example.deezerapp.R
 import com.example.deezerapp.core.BaseFragment
 import com.example.deezerapp.core.UiState
 import com.example.deezerapp.databinding.FragmentAlbumTracksBinding
+import com.example.deezerapp.util.manager.MediaPlayerManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AlbumTracksFragment :
@@ -21,7 +28,8 @@ class AlbumTracksFragment :
     private val viewModel: AlbumTracksViewModel by viewModels()
     private val args: AlbumTracksFragmentArgs by navArgs()
     private val adapter by lazy { TracksAdapter(::onItemClick, ::onFavoriteButtonClick) }
-
+    @Inject
+    lateinit var mediaPlayerManager: MediaPlayerManager
     override fun onCreateFinished() {
         getArgs()
         observeLiveData()
@@ -57,33 +65,37 @@ class AlbumTracksFragment :
                 }
             }
         }
-        viewModel.favoriteState.observe(viewLifecycleOwner) { event ->
-            event.getContentIfNotHandled()?.let {
-                when (it) {
-                    is UiState.Loading -> {}
-                    is UiState.Error -> {
-                        errorMessage(it.message)
-                    }
-                    is UiState.Success -> {
-                        it.data?.let { it1 -> requireContext().toastMessage(it1) }
-                    }
+       viewLifecycleOwner.lifecycleScope.launch {
+           viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
+               viewModel.favoriteUiState.collectLatest { uiState ->
+                   when (uiState) {
+                       is UiState.Loading -> {}
+                       is UiState.Error -> {
+                           errorMessage(uiState.message)
+                       }
+                       is UiState.Success -> {
+                           uiState.data?.let { it1 -> requireContext().toastMessage(it1) }
+                       }
+                   }
+               }
+           }
+       }
+        viewLifecycleOwner.lifecycleScope.launch {
+            mediaPlayerManager.isPlaying.collectLatest { isPlaying ->
+                val playPauseButtonImage = if (isPlaying) {
+                    R.drawable.round_stop_24
+                } else {
+                    R.drawable.round_play_arrow_24
                 }
+                binding.playPauseButton2.setImageResource(playPauseButtonImage)
             }
         }
-        viewModel.isPlaying.observe(viewLifecycleOwner) { isPlaying ->
-            val playPauseButtonImage = if (isPlaying) {
-                binding.playerView.visible()
-                R.drawable.round_stop_24
-            } else {
-                R.drawable.round_play_arrow_24
-            }
-            binding.playPauseButton2.setImageResource(playPauseButtonImage)
-        }
+
     }
 
     override fun initListener() {
         binding.playPauseButton2.setOnClickListener {
-            viewModel.togglePlayback()
+            mediaPlayerManager.togglePlayback()
         }
         binding.tracksToolbar.toolbarBackButton.setOnClickListener {
             findNavController().popBackStack()
@@ -96,18 +108,17 @@ class AlbumTracksFragment :
 
     private fun onItemClick(tracksUiData: TracksUiData) {
         if (requireContext().isNetworkAvailable()) {
-            playMusic(tracksUiData)
+            mediaPlayerManager.startPlayback(tracksUiData.preview)
+            binding.playerView.visible()
+            binding.playArtistName.text=tracksUiData.artist
+            binding.playMusicName.text=tracksUiData.title
         } else {
             requireContext().navigateToInternetSettingsWithConfirmation()
         }
     }
-
-    private fun playMusic(tracksUiData: TracksUiData) {
-        binding.playArtistName.text = tracksUiData.artist
-        binding.playMusicName.text = tracksUiData.title
-        viewModel.startPlayback(
-            tracksUiData.preview
-        )
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mediaPlayerManager.release()
     }
 
 }
