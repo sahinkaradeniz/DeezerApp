@@ -1,17 +1,16 @@
 package com.example.deezerapp.ui.artist
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.common.extension.downloadFromUrl
+import com.example.deezerapp.core.DiffCallback
 import com.example.deezerapp.databinding.ArtistAlbumItemBinding
-import com.example.deezerapp.ui.albumTracks.TracksUiData
 
 class AlbumsAdapter(private val clickItem:(Int,String,String)->Unit):RecyclerView.Adapter<AlbumsAdapter.AlbumsViewHolder>() {
-    private val itemList= mutableListOf<AlbumsUiData>()
+    private var itemList= listOf<AlbumsUiData>()
    inner  class AlbumsViewHolder (private val binding:ArtistAlbumItemBinding):ViewHolder(binding.root){
         fun bind(albumsUiData: AlbumsUiData){
             binding.albumImage.downloadFromUrl(albumsUiData.picture)
@@ -35,23 +34,9 @@ class AlbumsAdapter(private val clickItem:(Int,String,String)->Unit):RecyclerVie
     override fun onBindViewHolder(holder: AlbumsViewHolder, position: Int) {
         holder.bind(itemList[position])
     }
-    private inner class AlbumsDiffCallback(
-        private val oldList: List<AlbumsUiData>,
-        private val newList: List<AlbumsUiData>,
-    ) : DiffUtil.Callback() {
-        override fun getOldListSize(): Int = oldList.size
-        override fun getNewListSize(): Int = newList.size
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition] == newList[newItemPosition]
-        }
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].id == newList[newItemPosition].id
-        }
-    }
     fun updateAlbumsAdapterData(newItems: List<AlbumsUiData>) {
-        val diffResult = DiffUtil.calculateDiff(AlbumsDiffCallback(itemList, newItems))
-        itemList.clear()
-        itemList.addAll(newItems)
+        val diffResult = DiffUtil.calculateDiff(DiffCallback(itemList, newItems))
+        itemList=newItems
         diffResult.dispatchUpdatesTo(this)
     }
 }
