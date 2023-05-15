@@ -50,6 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
+            android:maxWidth="160dp"
+            android:maxLines="1"
             android:text="Track Name"
             android:textSize="16sp"
             android:textStyle="bold"
