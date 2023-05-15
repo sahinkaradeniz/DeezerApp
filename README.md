@@ -17,6 +17,8 @@ TRACKS SCREEN | TRACKS SCREEN | FAVORİTES SCREEN |
  
 - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 
+- [Kotlin Flow](https://developer.android.com/kotlin/flow)
+
 - [Kotlin Coroutine](https://developer.android.com/kotlin/coroutines)
  
 - [Dependency Injection with Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
