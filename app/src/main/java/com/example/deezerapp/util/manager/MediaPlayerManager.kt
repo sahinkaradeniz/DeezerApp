@@ -28,7 +28,7 @@ class MediaPlayerManager @Inject constructor(private val context: Context) {
         }
     }
 
-    fun stopPlayback() {
+    private fun stopPlayback() {
         mediaPlayer?.stop()
         mediaPlayer?.release()
         mediaPlayer = null
