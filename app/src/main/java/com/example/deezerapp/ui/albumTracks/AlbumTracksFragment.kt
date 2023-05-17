@@ -28,6 +28,7 @@ class AlbumTracksFragment :
     private val viewModel: AlbumTracksViewModel by viewModels()
     private val args: AlbumTracksFragmentArgs by navArgs()
     private val adapter by lazy { TracksAdapter(::onItemClick, ::onFavoriteButtonClick) }
+
     @Inject
     lateinit var mediaPlayerManager: MediaPlayerManager
     override fun onCreateFinished() {
@@ -65,32 +66,33 @@ class AlbumTracksFragment :
                 }
             }
         }
-       viewLifecycleOwner.lifecycleScope.launch {
-           viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED){
-               viewModel.favoriteUiState.collectLatest { uiState ->
-                   when (uiState) {
-                       is UiState.Loading -> {}
-                       is UiState.Error -> {
-                           errorMessage(uiState.message)
-                       }
-                       is UiState.Success -> {
-                           uiState.data?.let { it1 -> requireContext().toastMessage(it1) }
-                       }
-                   }
-               }
-           }
-       }
         viewLifecycleOwner.lifecycleScope.launch {
-            mediaPlayerManager.isPlaying.collectLatest { isPlaying ->
-                val playPauseButtonImage = if (isPlaying) {
-                    R.drawable.round_stop_24
-                } else {
-                    R.drawable.round_play_arrow_24
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.favoriteUiState.collectLatest { uiState ->
+                    when (uiState) {
+                        is UiState.Loading -> {}
+                        is UiState.Error -> {
+                            errorMessage(uiState.message)
+                        }
+                        is UiState.Success -> {
+                            uiState.data?.let { it1 -> requireContext().toastMessage(it1) }
+                        }
+                    }
                 }
-                binding.playPauseButton2.setImageResource(playPauseButtonImage)
             }
         }
-
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mediaPlayerManager.isPlaying.collectLatest { isPlaying ->
+                    val playPauseButtonImage = if (isPlaying) {
+                        R.drawable.round_stop_24
+                    } else {
+                        R.drawable.round_play_arrow_24
+                    }
+                    binding.playPauseButton2.setImageResource(playPauseButtonImage)
+                }
+            }
+        }
     }
 
     override fun initListener() {
@@ -110,12 +112,13 @@ class AlbumTracksFragment :
         if (requireContext().isNetworkAvailable()) {
             mediaPlayerManager.startPlayback(tracksUiData.preview)
             binding.playerView.visible()
-            binding.playArtistName.text=tracksUiData.artist
-            binding.playMusicName.text=tracksUiData.title
+            binding.playArtistName.text = tracksUiData.artist
+            binding.playMusicName.text = tracksUiData.title
         } else {
             requireContext().navigateToInternetSettingsWithConfirmation()
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         mediaPlayerManager.release()
